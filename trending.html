@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anime Slider</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0d0d;
+      --card-gap: 16px;
+      --card-w: 200px;
+      --card-h: 290px;
+      --accent: #f47521;
+      --text: #e8e8e8;
+      --sub: #888;
+    }
+
+    body {
+      background: var(--bg);
+      font-family: 'Nunito', sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 36px;
+      padding: 0 20px;
+    }
+
+    .section-header h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      letter-spacing: 2px;
+      color: #fff;
+      line-height: 1;
+    }
+
+    .section-header p {
+      margin-top: 10px;
+      color: var(--sub);
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    /* ── Slider Shell ── */
+    .slider-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 1300px;
+      padding: 0 56px;
+    }
+
+    .slider-track-mask {
+      overflow: hidden;
+      width: 100%;
+      position: relative;
+    }
+
+    /* fade edges */
+    .slider-track-mask::before,
+    .slider-track-mask::after {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 60px;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .slider-track-mask::before { left: 0;  background: linear-gradient(to right,  var(--bg), transparent); }
+    .slider-track-mask::after  { right: 0; background: linear-gradient(to left,   var(--bg), transparent); }
+
+    .slider-track {
+      display: flex;
+      gap: var(--card-gap);
+      transition: transform 0.45s cubic-bezier(0.25, 0.8, 0.25, 1);
+      will-change: transform;
+    }
+
+    /* ── Cards ── */
+    .anime-card {
+      flex: 0 0 var(--card-w);
+      cursor: pointer;
+      position: relative;
+    }
+
+    .card-img-wrap {
+      width: var(--card-w);
+      height: var(--card-h);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      background: #1a1a1a;
+    }
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .anime-card:hover .card-img-wrap img { transform: scale(1.07); }
+
+    /* overlay on hover */
+    .card-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.35s;
+      border-radius: 10px;
+      display: flex;
+      align-items: flex-end;
+      padding: 14px;
+    }
+
+    .anime-card:hover .card-overlay { opacity: 1; }
+
+    .card-overlay-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 7px 16px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: background 0.2s;
+    }
+    .card-overlay-btn:hover { background: #d95f0e; }
+
+    .card-info { margin-top: 10px; padding: 0 2px; }
+
+    .card-title {
+      font-weight: 700;
+      font-size: clamp(0.78rem, 1.5vw, 0.92rem);
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-sub {
+      font-size: 0.75rem;
+      color: var(--sub);
+      margin-top: 3px;
+    }
+
+    .card-sub span {
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .card-sub .sep { color: #555; margin: 0 4px; }
+
+    /* ── Nav Buttons ── */
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(calc(-50% - 20px)); /* offset to vertically center on image */
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.15);
+      background: rgba(20,20,20,0.85);
+      color: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      backdrop-filter: blur(4px);
+    }
+
+    .nav-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(calc(-50% - 20px)) scale(1.1);
+    }
+
+    .nav-btn.prev { left: 8px; }
+    .nav-btn.next { right: 8px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
+      :root { --card-w: 180px; --card-h: 260px; }
+    }
+    @media (max-width: 900px) {
+      :root { --card-w: 160px; --card-h: 235px; }
+      .slider-wrapper { padding: 0 44px; }
+    }
+    @media (max-width: 680px) {
+      :root { --card-w: 140px; --card-h: 205px; --card-gap: 12px; }
+      .slider-wrapper { padding: 0 38px; }
+      .nav-btn { width: 34px; height: 34px; font-size: 0.9rem; }
+    }
+    @media (max-width: 480px) {
+      :root { --card-w: 120px; --card-h: 176px; --card-gap: 10px; }
+      .slider-wrapper { padding: 0 32px; }
+      .nav-btn { width: 28px; height: 28px; font-size: 0.8rem; }
+      .slider-track-mask::before,
+      .slider-track-mask::after { width: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="section-header">
+    <h2>Popular Now</h2>
+    <p>Stream full seasons of the top anime, simulcasts, Crunchyroll Originals, and more!</p>
+  </div>
+
+  <div class="slider-wrapper">
+    <button class="nav-btn prev" aria-label="Previous">&#8249;</button>
+    <div class="slider-track-mask">
+      <div class="slider-track" id="track"></div>
+    </div>
+    <button class="nav-btn next" aria-label="Next">&#8250;</button>
+  </div>
+
+  <script>
+    const animeList = [
+      { title: "MF Ghost",                    sub: true, dub: true,  img: "https://cdn.myanimelist.net/images/anime/1077/135085.jpg" },
+      { title: "Golden Kamuy",                sub: true, dub: true,  img: "https://cdn.myanimelist.net/images/anime/1876/128392.jpg" },
+      { title: "The Apothecary Diaries",      sub: true, dub: true,  img: "https://cdn.myanimelist.net/images/anime/1330/141458.jpg" },
+      { title: "Clevatess",                   sub: true, dub: true,  img: "https://cdn.myanimelist.net/images/anime/1915/142842.jpg" },
+      { title: "Seirei Gensouki",             sub: true, dub: true,  img: "https://cdn.myanimelist.net/images/anime/1914/113779.jpg" },
+      { title: "Shangri-La Frontier",         sub: true, dub: true,  img: "https://cdn.myanimelist.net/images/anime/1550/134547.jpg" },
+      { title: "Frieren: Beyond Journey's End", sub: true, dub: true, img: "https://cdn.myanimelist.net/images/anime/1015/138006.jpg" },
+      { title: "Solo Leveling",               sub: true, dub: true,  img: "https://cdn.myanimelist.net/images/anime/1721/141168.jpg" },
+      { title: "Demon Slayer",                sub: true, dub: true,  img: "https://cdn.myanimelist.net/images/anime/1286/99889.jpg" },
+      { title: "Jujutsu Kaisen",              sub: true, dub: true,  img: "https://cdn.myanimelist.net/images/anime/1171/109222.jpg" },
+    ];
+
+    function makeCard(anime) {
+      const card = document.createElement('div');
+      card.className = 'anime-card';
+
+      const dubs = [];
+      if (anime.sub) dubs.push('<span>Sub</span>');
+      if (anime.dub) dubs.push('<span>Dub</span>');
+
+      card.innerHTML = `
+        <div class="card-img-wrap">
+          <img src="${anime.img}" alt="${anime.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/200x290/1a1a1a/555?text=Anime'"/>
+          <div class="card-overlay">
+            <button class="card-overlay-btn">▶ Watch Now</button>
+          </div>
+        </div>
+        <div class="card-info">
+          <div class="card-title">${anime.title}</div>
+          <div class="card-sub">${dubs.join('<span class="sep">|</span>')}</div>
+        </div>
+      `;
+      return card;
+    }
+
+    // ── Infinite Slider Logic ──
+    const track = document.getElementById('track');
+    const prevBtn = document.querySelector('.nav-btn.prev');
+    const nextBtn = document.querySelector('.nav-btn.next');
+
+    // Clone list 3× for seamless infinite feel
+    const items = [...animeList, ...animeList, ...animeList];
+    items.forEach(a => track.appendChild(makeCard(a)));
+
+    const TOTAL = animeList.length;
+    let currentIndex = TOTAL; // Start at middle set
+    let isAnimating = false;
+
+    function getCardWidth() {
+      const card = track.querySelector('.anime-card');
+      if (!card) return 200;
+      return card.offsetWidth + parseInt(getComputedStyle(track).gap || '16');
+    }
+
+    function getVisibleCount() {
+      const wrapperW = track.parentElement.offsetWidth;
+      const cw = getCardWidth();
+      return Math.max(1, Math.floor(wrapperW / cw));
+    }
+
+    function applyTransform(animate = true) {
+      const cw = getCardWidth();
+      track.style.transition = animate
+        ? 'transform 0.45s cubic-bezier(0.25,0.8,0.25,1)'
+        : 'none';
+      track.style.transform = `translateX(-${currentIndex * cw}px)`;
+    }
+
+    function jumpIfNeeded() {
+      if (currentIndex <= TOTAL - 1) {
+        currentIndex += TOTAL;
+        applyTransform(false);
+      } else if (currentIndex >= TOTAL * 2) {
+        currentIndex -= TOTAL;
+        applyTransform(false);
+      }
+      isAnimating = false;
+    }
+
+    track.addEventListener('transitionend', jumpIfNeeded);
+
+    function slide(dir) {
+      if (isAnimating) return;
+      isAnimating = true;
+      const step = getVisibleCount();
+      currentIndex += dir * Math.max(1, Math.floor(step / 2));
+      applyTransform(true);
+    }
+
+    nextBtn.addEventListener('click', () => slide(1));
+    prevBtn.addEventListener('click', () => slide(-1));
+
+    // Init position (no animation)
+    applyTransform(false);
+
+    // Recalculate on resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => applyTransform(false), 150);
+    });
+
+    // Touch / swipe support
+    let touchStartX = 0;
+    track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      const dx = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(dx) > 40) slide(dx > 0 ? 1 : -1);
+    }, { passive: true });
+  </script>
+</body>
+</html>

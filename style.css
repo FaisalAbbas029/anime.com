@@ -1,0 +1,274 @@
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: sans-serif;
+}
+
+
+/* header */
+
+header {
+    background-image: url(images/backgroung.png);
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 50px;
+    background-color: #a5010485;
+    flex-wrap: wrap;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding: 15px;
+    flex-wrap: wrap;
+}
+
+nav h1 {
+    color: bisque;
+}
+
+nav ul li a {
+    font-size: 16px;
+    font-weight: 600;
+    color: bisque;
+    background-color: transparent;
+
+}
+
+nav ul li a:hover {
+    color: #fcba04;
+    transition: .3s all ease;
+}
+
+header .textwapper {
+    width: 40%;
+    height: 90vh;
+    padding: 150px 50px;
+    
+}
+
+header .textwapper h3 {
+    color: #fcba04;
+    font-weight: 600;
+}
+
+header .textwapper h1 {
+    font-weight: 700;
+    font-size: 45px;
+    color: bisque;
+    padding-bottom: 15px;
+
+}
+
+header .textwapper h1 span {
+    color: #fcba04;
+}
+
+header .textwapper p {
+    color: bisque;
+    line-height: 23px;
+    font-weight: 600;
+    padding-bottom: 50px;
+}
+
+header .textwapper a {
+    font-size: 16px;
+    font-weight: 600;
+    color: bisque;
+    background-color: #a5010485;
+    padding: 10px 8px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    margin: 0 5px;
+ transition: .5s ease all;
+}
+
+header .textwapper a:hover {
+    color: #a5010485;
+    background-color: #fcba04;
+    border: 2px solid transparent;
+}
+
+/* section one  */
+
+.secone {
+    background: #fcba04;
+}
+
+.secone .textwapper {
+    display: flex;
+    align-items: center;
+    padding: 50px;
+    gap: 100px;
+}
+
+.secone .textwapper h1 {
+    width: 40%;
+    color: bisque;
+    font-size: 45px;
+    font-weight: 600;
+
+}
+
+
+.secone .textwapper h1 span {
+    color: #a5010485;
+}
+
+.secone .textwapper p {
+    width: 40%;
+    color: bisque;
+    font-weight: 600;
+    border-left: 4px solid #a5010485;
+    padding-left: 20px;
+}
+
+/* image wapper  */
+.secone .imgwapper {
+    padding: 50px;
+}
+
+.secone .imgwapper ul {
+    list-style: none;
+    display: flex;
+    gap: 10px;
+}
+
+
+.secone .imgwapper ul li img {
+    width: 300px;
+    height: 200px;
+
+}
+
+.secone .imgwapper ul li img:hover {
+
+    background: blue 22px 22px 0px;
+
+
+}
+
+
+
+
+/* responsive for the tablet */
+
+@media(max-width:768px) {
+
+    /* navbbar  */
+
+    nav {
+        padding: 15px;
+    }
+
+
+    nav h1 {
+        font-size: 25px;
+
+    }
+
+    nav ul {
+        gap: 20px;
+
+    }
+
+    nav ul li a {
+        font-size: 15px;
+    }
+
+    /* Header */
+
+    header .textwapper {
+        padding: 120px 15px;
+        width: 50%;
+        height: auto;
+    }
+
+    header .textwapper h3 {
+        font-size: 17px;
+    }
+
+    header .textwapper h1 {
+        font-size: 27px;
+    }
+
+    header .textwapper a {
+        padding: 6px 4px;
+    }
+
+}
+
+/* Rsponsive for the mobile screen   */
+@media(max-width:320px) {
+
+    /* Navbar */
+    nav {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+
+
+
+    nav h1 {
+        font-size: 20px;
+    }
+
+    nav ul li a {
+        gap: 15px;
+        font-size: 13px;
+    }
+
+
+    /* Header  */
+
+    header .textwapper {
+        width: 70%;
+        padding: 70px 10px;
+    }
+
+    header .textwapper h3 {
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    header .textwapper h1 {
+        font-size: 20px;
+        font-weight: 550;
+        padding-bottom: 10px
+    }
+
+
+    header .textwapper p {
+        line-height: 17px;
+        font-size: 12px;
+        font-weight: 500;
+        padding-bottom: 25px;
+    }
+
+
+    header .textwapper a {
+        font-size: 13px;
+        padding: 4px 2px;
+
+    }
+}

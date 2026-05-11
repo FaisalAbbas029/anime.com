@@ -1,0 +1,116 @@
+* {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: sans-serif;
+}
+
+
+/* header */
+
+header {
+    background-image: url(images/backgroung.png);
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 50px;
+    background-color: #a5010485;
+    flex-wrap: wrap;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    padding: 15px;
+    flex-wrap: wrap;
+}
+
+nav h1 {
+    color: bisque;
+}
+
+nav ul li a {
+    font-size: 16px;
+    font-weight: 600;
+    color: bisque;
+    background-color: transparent;
+
+}
+
+nav ul li a:hover {
+    color: #fcba04;
+    transition: .3s all ease;
+}
+
+header .div-wraper {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 90vh}
+
+header .div-wraper .plan  {
+    color: white;
+    background: #a5010485;
+    border: 2px solid transparent;
+    padding: 40px 40px;
+    border-radius: 15px;
+    transition: .5s ease all;
+}
+
+header .div-wraper .plan:hover{
+    padding: 60px 40px ;
+}
+
+
+header .div-wraper .plan  h1{
+    font-size: 50px;
+    text-align: center;
+    font-weight: 600;
+}
+
+header .div-wraper .plan h2{
+    font-size: 25px;
+    text-align: center;
+    font-weight: 550;
+line-height: 40px;
+}
+
+header .div-wraper .plan ul li{
+    list-style: circle;
+    line-height: 25px;
+}
+
+header .div-wraper .plan button{
+    margin-top:15px;
+    color: white;
+    background-color: #fcba04;
+padding: 7px 10px;
+font-size: 16px;
+border-radius: 15px;
+border: 2px solid transparent;
+transition: .5s ease all;
+}
+
+header .div-wraper .plan button:hover{
+    border: 2px solid #fcba04 ;
+    background-color: #a5010485;
+    color: #fcba04;
+}
